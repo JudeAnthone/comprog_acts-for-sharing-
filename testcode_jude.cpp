@@ -13,219 +13,294 @@ void ascii();
 
 int main()
 {
-  char player;
-  char computer;
-  char Play_Again;
-  int difficulty;
-  int User_Score = 0;
-  int Computer_Score = 0;
-
-  do
-  {
-    ascii();
-    cout << '\n';
-
-    cout << "Rock-Paper-Scissors Game\n";
-    cout << '\n';
-    cout << "Choose difficulty level:\n";
-    cout << "1) Easy\n";
-    cout << "2) Medium\n";
-    cout << "3) Hard\n";
-    cout << "Enter your choice: ";
-
-    // Error handling for char input and 4+ values ng user
-    while (!(cin >> difficulty) || difficulty < 1 || difficulty > 3)
-    {
-      cout << "ERROR: Invalid input. Please enter a valid difficulty level (1, 2, or 3).\n";
-      cout << "Enter your choice: ";
-
-      // Clear the input buffer
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
+    char player;
+    char computer;
+    char Play_Again;
+    int difficulty;
+    int User_Score = 0;
+    int Computer_Score = 0;
 
     do
     {
-      player = getUserChoice();
-      cout << "Your Choice; ";
-      showChoice(player);
+        ascii();
+        cout << '\n';
 
-      computer = getComputerChoice(difficulty, player);
-      cout << "Computers Choice: ";
-      showChoice(computer);
+        cout << "Rock-Paper-Scissors Game\n";
+        cout << '\n';
+        cout << "Choose difficulty level:\n";
+        cout << '\n';
+        cout << "       1) Easy\n";
+        cout << "       2) Medium\n";
+        cout << "       3) Hard\n";
+        cout << '\n';
+        cout << "Enter your choice: ";
+        cout << '\n';
 
-      chooseWinner(player, computer, User_Score, Computer_Score);
+        // Error handling for char input and 4+ values ng user
+        while (!(cin >> difficulty) || difficulty < 1 || difficulty > 3)
+        {
+            cout << "ERROR: Invalid input. Please enter a valid difficulty level (1, 2, or 3).\n";
+            cout << '\n';
+            cout << "Enter your choice: ";
+            cout << '\n';
 
-      cout << "Score - You: " << User_Score << " | Computer: " << Computer_Score << endl;
+            // Clear the input buffer
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
 
-      cout << "Do you want to play again? (y/n): ";
-      cin >> Play_Again;
+        do
+        {
 
-    } while (Play_Again == 'y' || Play_Again == 'Y');
-    cout << "Do you want to change the difficulty level? (Y/N): ";
-    cin >> Play_Again;
+            player = getUserChoice();
+            cout << "Your Choice: ";
+            cout << '\n';
+            showChoice(player);
 
-  } while (Play_Again == 'y' || Play_Again == 'Y');
+            computer = getComputerChoice(difficulty, player);
+            cout << '\n';
+            cout << "Computers Choice: ";
+            cout << '\n';
+            showChoice(computer);
 
-  cout << "Thanks for Playing!!";
-  return 0;
+            chooseWinner(player, computer, User_Score, Computer_Score);
+            cout << '\n';
+            cout << "Score - You: " << User_Score << " | Computer: " << Computer_Score << endl;
+
+            cout << '\n';
+            cout << "Do you want to play again or change the diffuculty? (Y/N): ";
+            cout << '\n';
+            cin >> Play_Again;
+
+            while (Play_Again != 'Y' && Play_Again != 'y' && Play_Again != 'N' && Play_Again != 'n')
+            {
+                cout << '\n';
+                cout << "ERROR: Invalid Input. Please Enter Y or N: ";
+                cout << '\n';
+                cin.clear();
+                cin >> Play_Again;
+            }
+
+        } while (Play_Again == 'Y' || Play_Again == 'y');
+        cout << '\n';
+        cout << "Do you want to change the difficulty level? (Y/N): ";
+        cout << '\n';
+        cin >> Play_Again;
+
+    } while (Play_Again == 'Y' || Play_Again == 'y');
+    cout << '\n';
+    cout << "THANK YOU FOR PLAYING!!";
+    cout << '\n';
+    return 0;
 }
 
 char getUserChoice()
 {
 
-  char player;
-  std::cout << "Rock-Paper-Scissors Game\n";
+    char player;
+    cout << '\n';
+    cout << "Rock-Paper-Scissors Game\n";
 
-  do
-  {
-    std::cout << "Pick your choice\n";
-    std::cout << "-------------------------\n";
-    std::cout << "r) Rock\n";
-    std::cout << "p) Paper\n";
-    std::cout << "s) Scissors\n";
-    std::cout << "Enter your choice: ";
-    std::cin >> player;
-
-    // error handling ng user choice
-    if (player != 'r' && player != 'p' && player != 's')
+    do
     {
+        cout << "    Pick your choice\n";
+        cout << "-------------------------\n";
+        cout << "    R) Rock\n";
+        cout << "    P) Paper\n";
+        cout << "    S) Scissors\n";
+        cout << '\n';
+        cout << "Enter your choice: ";
+        cin >> player;
+        player = tolower(player);
 
-      cout << "ERROR: Invalid Input. Please enter r, p, and s only. '\n ";
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
+        // error handling ng user choice
+        if (player != 'r' && player != 'p' && player != 's')
+        {
+            cout << '\n';
+            cout << "ERROR: Invalid Input. Please enter R, P, and S only. '\n ";
+            cout << '\n';
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
 
-  } while (player != 'r' && player != 'p' && player != 's');
+    } while (player != 'r' && player != 'p' && player != 's');
 
-  return player;
+    return player;
 }
 
 char getComputerChoice(int difficulty, char player)
 {
 
-  srand(time(0));
-  int num;
+    srand(time(0));
+    int num;
 
-  switch (difficulty)
-  {
-
-  case 1: // easy
-    num = rand() % 2 + 1;
-    break;
-
-  case 2: // medium
-    num = rand() % 3 + 1;
-    break;
-
-  case 3: // hard
-    if (player == 'r')
+    switch (difficulty)
     {
-      num = 2;
-    }
-    else if (player == 'p')
+
+    case 1: // easy
     {
-      num = 3;
-    }
-    else
-    {
-      num = 1;
+        int num_easy = rand() % 10 + 1;
+        if (num_easy <= 8) // 80% of winning - user
+        {
+            num = 1;
+        }
+        else // 20% of winning -  computer
+        {
+            num = rand() % 2 + 2;
+        }
     }
     break;
-  default:
-    int num = rand() % 3 + 1;
-  }
 
-  switch (num)
-  {
-  case 1:
-    return 'r';
-  case 2:
-    return 'p';
-  case 3:
-    return 's';
-  }
+    case 2: // medium
+    {
+        int num_medium = rand() % 10 + 1;
+        if (num_medium <= 5) // 50% of winning - user
+        {
+            num = 1;
+        }
+        else // 50% of winning - computer
+        {
+            num = rand() % 2 + 2;
+        }
+    }
+    break;
 
-  return 0;
+    case 3: // hard
+    {
+        int num_hard = rand() % 10 + 1;
+        if (num_hard <= 6) // 60% of winning - computer
+        {
+            num = 1;
+        }
+        else // 40% of winning - user
+        {
+            num = rand() % 2 + 2;
+        }
+    }
+
+    break;
+    default:
+        int num_default = rand() % 3 + 1;
+        num = num_default;
+    }
+
+    switch (num)
+    {
+    case 1:
+        return 'r';
+    case 2:
+        return 'p';
+    case 3:
+        return 's';
+    }
+
+    return 0;
 }
 
 void showChoice(char choice)
 {
 
-  switch (choice)
-  {
-  case 'r':
-    std::cout << "Rock\n";
-    break;
-  case 'p':
-    std::cout << "Paper\n";
-    break;
-  case 's':
-    std::cout << "Scissors\n";
-    break;
-  }
+    switch (choice)
+    {
+    case 'r':
+        cout << '\n';
+        cout << "   _______\n";
+        cout << "  (       )\n";
+        cout << " (   Rock  )\n";
+        cout << "  (_______)\n";
+        cout << '\n';
+        break;
+    case 'p':
+        cout << "   _______\n";
+        cout << "  (       )\n";
+        cout << " (  Paper  )\n";
+        cout << "  (_______)\n";
+        cout << '\n';
+        break;
+    case 's':
+        cout << "   _______\n";
+        cout << "  (       )\n";
+        cout << " (Scissors)\n";
+        cout << "  (_______)\n";
+        cout << '\n';
+        break;
+    }
 }
 
 void chooseWinner(char player, char computer, int &User_Score, int &Computer_Score)
 {
-  switch (player)
-  {
-  case 'r':
-    if (computer == 'r')
+    switch (player)
     {
-      std::cout << "Tie\n";
+    case 'r':
+        if (computer == 'r')
+        {
+            cout << "Tie\n";
+            cout << '\n';
+        }
+        else if (computer == 'p')
+        {
+            cout << "HHHH YOU LOOSE\n";
+            cout << '\n';
+            Computer_Score++;
+        }
+        else
+        {
+            cout << '\n';
+            cout << "YOU WIN!\n";
+            cout << '\n';
+            User_Score++;
+        }
+        break;
+    case 'p':
+        if (computer == 'r')
+        {
+            cout << '\n';
+            cout << "YOU WIN\n";
+            cout << '\n';
+            User_Score++;
+        }
+        else if (computer == 'p')
+        {
+            cout << "Tie\n";
+            cout << '\n';
+        }
+        else
+        {
+            cout << '\n';
+            cout << "HHHH YOU LOOSE\n";
+            cout << '\n';
+            Computer_Score++;
+        }
+        break;
+    case 's':
+        if (computer == 'r')
+        {
+            cout << '\n';
+            cout << "HHHH YOU LOOSE\n";
+            cout << '\n';
+            Computer_Score++;
+        }
+        else if (computer == 'p')
+        {
+            cout << '\n';
+            cout << "YOU WIN\n";
+            cout << '\n';
+            User_Score++;
+        }
+        else
+        {
+            cout << '\n';
+            cout << "Tie\n";
+            cout << '\n';
+        }
+        break;
     }
-    else if (computer == 'p')
-    {
-      std::cout << "You lose\n";
-      Computer_Score++;
-    }
-    else
-    {
-      std::cout << "You win\n";
-      User_Score++;
-    }
-    break;
-  case 'p':
-    if (computer == 'r')
-    {
-      std::cout << "You Win\n";
-      User_Score++;
-    }
-    else if (computer == 'p')
-    {
-      std::cout << "Tie\n";
-    }
-    else
-    {
-      std::cout << "You lose\n";
-      Computer_Score++;
-    }
-    break;
-  case 's':
-    if (computer == 'r')
-    {
-      std::cout << "You lose\n";
-      Computer_Score++;
-    }
-    else if (computer == 'p')
-    {
-      std::cout << "You win\n";
-      User_Score++;
-    }
-    else
-    {
-      std::cout << "Tie\n";
-    }
-    break;
-  }
 }
 
 void ascii()
 {
-
-  cout << " ____  ____   ___  ____            __   __  \n";
-  cout << "(  _ \\/ ___) / __)/ ___)   ___    /  \\ / _\\ \n";
-  cout << " ) _ (\\___ \\( (__ \\___ \\  (___)  (_/ //    \\\n";
-  cout << "(____/(____/ \\___)(____/          (__)_/\\_/\n";
+    cout << " ____  ____   ___  ____            __   __  \n";
+    cout << "(  _ \\/ ___) / __)/ ___)   ___    /  \\ / _\\ \n";
+    cout << " ) _ (\\___ \\( (__ \\___ \\  (___)  (_/ //    \\\n";
+    cout << "(____/(____/ \\___)(____/          (__)_/\\_/\n";
 }
