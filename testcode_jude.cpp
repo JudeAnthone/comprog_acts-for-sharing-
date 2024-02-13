@@ -1,3 +1,4 @@
+// UPDATED
 #include <iostream>
 #include <ctime>
 #include <limits>
@@ -10,6 +11,7 @@ void chooseWinner(char player, char computer, int &User_Score, int &Computer_Sco
 
 // ASCII ART
 void ascii();
+void clear();
 
 int main()
 {
@@ -48,10 +50,9 @@ int main()
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
-
+        clear();
         do
         {
-
             player = getUserChoice();
             cout << "Your Choice: ";
             cout << '\n';
@@ -68,7 +69,7 @@ int main()
             cout << "Score - You: " << User_Score << " | Computer: " << Computer_Score << endl;
 
             cout << '\n';
-            cout << "Do you want to play again or change the diffuculty? (Y/N): ";
+            cout << "Do you want to play again? (Y/N): ";
             cout << '\n';
             cin >> Play_Again;
 
@@ -78,16 +79,34 @@ int main()
                 cout << "ERROR: Invalid Input. Please Enter Y or N: ";
                 cout << '\n';
                 cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Do you want to play again? (Y/N): ";
+                cout << '\n';
                 cin >> Play_Again;
             }
 
         } while (Play_Again == 'Y' || Play_Again == 'y');
+
         cout << '\n';
         cout << "Do you want to change the difficulty level? (Y/N): ";
         cout << '\n';
         cin >> Play_Again;
 
+        // Validate difficulty input
+        while (Play_Again != 'Y' && Play_Again != 'y' && Play_Again != 'N' && Play_Again != 'n')
+        {
+            cout << '\n';
+            cout << "ERROR: Invalid Input. Please Enter Y or N: ";
+            cout << '\n';
+            cout << "Do you want to change the difficulty level? (Y/N): ";
+            cout << '\n';
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> Play_Again;
+        }
+
     } while (Play_Again == 'Y' || Play_Again == 'y');
+
     cout << '\n';
     cout << "THANK YOU FOR PLAYING!!";
     cout << '\n';
@@ -138,50 +157,29 @@ char getComputerChoice(int difficulty, char player)
     {
 
     case 1: // easy
-    {
-        int num_easy = rand() % 10 + 1;
-        if (num_easy <= 8) // 80% of winning - user
-        {
-            num = 1;
-        }
-        else // 20% of winning -  computer
-        {
-            num = rand() % 2 + 2;
-        }
-    }
-    break;
+        num = rand() % 2 + 1;
+        break;
 
     case 2: // medium
-    {
-        int num_medium = rand() % 10 + 1;
-        if (num_medium <= 5) // 50% of winning - user
-        {
-            num = 1;
-        }
-        else // 50% of winning - computer
-        {
-            num = rand() % 2 + 2;
-        }
-    }
-    break;
+        num = rand() % 3 + 1;
+        break;
 
     case 3: // hard
-    {
-        int num_hard = rand() % 10 + 1;
-        if (num_hard <= 6) // 60% of winning - computer
+        if (player == 'r')
+        {
+            num = 2;
+        }
+        else if (player == 'p')
+        {
+            num = 3;
+        }
+        else
         {
             num = 1;
         }
-        else // 40% of winning - user
-        {
-            num = rand() % 2 + 2;
-        }
-    }
-
-    break;
+        break;
     default:
-        int num_default = rand() % 3 + 1;
-        num = num_default;
+        int num = rand() % 3 + 1;
     }
 
     switch (num)
@@ -303,4 +301,11 @@ void ascii()
     cout << "(  _ \\/ ___) / __)/ ___)   ___    /  \\ / _\\ \n";
     cout << " ) _ (\\___ \\( (__ \\___ \\  (___)  (_/ //    \\\n";
     cout << "(____/(____/ \\___)(____/          (__)_/\\_/\n";
+}
+void clear()
+{
+    cout << "Pres any key to continue: '\n";
+    cin.ignore();
+    cin.get();
+    system("cls");
 }
